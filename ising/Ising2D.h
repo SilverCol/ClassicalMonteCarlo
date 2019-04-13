@@ -19,6 +19,7 @@ public:
     Ising2D(double j, double h, const std::string& init);
     inline double magnetization(){return (2*(double)m_spins.count() - N) / N;}
     inline double energy(){return m_energy;}
+    inline const std::bitset<N>& lattice() const {return m_spins;}
     void step(double beta);
 private:
     std::bitset<N> m_spins;
