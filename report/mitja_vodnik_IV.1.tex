@@ -6,6 +6,7 @@
 \usepackage{float}
 \usepackage{graphicx}
 \usepackage{amsmath}
+\usepackage{amssymb}
 \usepackage{subcaption}
 \usepackage{hyperref}
 
@@ -32,6 +33,8 @@
 \newcommand{\ket}[1]{|#1\rangle}
 \newcommand{\id}[1]{\mathbf{1}_{2^{#1}}}
 \newcommand{\tinv}{\frac{1}{\tau}}
+\newcommand{\s}{\sigma}
+\newcommand{\us}{\underline{\s}}
 
 \begin{document}
 
@@ -42,10 +45,27 @@
 	\date{\today}
 	\maketitle
 
-    \ldots
+    S pomočjo Metropolisovega algoritma bomo raziskali ravnovesna termalna stanja klasičnih Isingovih in Heisenbergovih
+    spinov.
+
+    \section{2D Isingov model}
+
+    Vzemimo kvadratno mrežo klasičnih Isingovih spinov:
 
     \begin{equation}\label{eq1}
-        H = \half \sum_{j=1}^{N} p_j^2 + \sum_{j=1}^N U(q_j) + \sum_{j=1}^{N-1} V(q_{j+1} - q_j)
+        \s_r \in \{ -1, 1 \}, \quad r \in L \subset \mathbb{Z}^2
+    \end{equation}
+
+    Energijo take mreže v konfiguraciji spinov $\us$ in magnetnem polju $h$ zapišemo kot:
+
+    \begin{equation}\label{eq2}
+        E(\us) = \sum_{<r, r'>} \s_r \s_{r'} - h\sum_r \s_r
+    \end{equation}
+
+    Vzamemo še, da so točke v falznem prostoru porazdeljene po Boltzmanovi porazdelitvi:
+
+    \begin{equation}\label{eq3}
+        w(\us) = Z^{-1}\exp(-\beta E(\us))
     \end{equation}
 
     \iffalse
