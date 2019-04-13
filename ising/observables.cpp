@@ -13,11 +13,9 @@ static const size_t steps = N * 100;
 static const double J = 1.;
 static const double H = 0.;
 
-static const double iBeta = 0;
-static const double dBeta = .05;
+static const double iBeta = 1;
+static const double dBeta = -.01;
 static const uint32_t nBeta = 100;
-
-static const std::string file("../data/observables.bin");
 
 void writeBinary(std::vector<double>& data, const std::string& file)
 {
@@ -33,7 +31,8 @@ int main()
 {
     auto start = std::chrono::high_resolution_clock::now();
 
-    Ising2D lattice(J, H, randomState());
+    // Ising2D lattice(J, H, randomState());
+    Ising2D lattice(J, H);
 
     std::map<double, std::pair<std::vector<double>, std::vector<double> > > observables;
 
@@ -78,6 +77,16 @@ int main()
                 std::inner_product(energyVector.begin(), energyVector.end(), energyVector.begin(), 0.0) / steps
         ); //mean energy sqr
     }
+
+    std::string file("../data/");
+    if (dBeta < 0) file.append("heating");
+    else file.append("cooling");
+    file.append(std::to_string(N));
+    file.append("_");
+    file.append(std::to_string(J));
+    file.append("_");
+    file.append(std::to_string(H));
+    file.append(".bin");
 
     std::cout << "Writing to file: " << file << std::endl;
     writeBinary(output, file);

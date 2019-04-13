@@ -11,8 +11,10 @@ m_chi(0., 1.),
 m_twister(std::random_device{}()),
 m_j(j),
 m_h(h),
-m_energy(-j*2*N + h*N)
-{}
+m_energy(-j*2*N - std::abs(h)*N)
+{
+    if (h >= 0) m_spins = ~m_spins;
+}
 
 Ising2D::Ising2D(double j, double h, const std::string& init) :
 m_spins(init),
