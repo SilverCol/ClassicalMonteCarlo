@@ -3,4 +3,4 @@ project(vaja_IV_1)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(ising src/ising.cpp src/Ising2D.cpp src/Ising2D.h)
+add_subdirectory(ising)

@@ -56,5 +56,5 @@ void Ising2D::step(double J, double h, double beta)
 
     // to flip or not to flip
     if (change < 0) m_spins.flip(r);
-    else if (m_chi(m_twister) > std::exp(-beta * change)) m_spins.flip(r);
+    else if (m_chi(m_twister) < std::exp(-beta * change)) m_spins.flip(r);
 }

@@ -18,7 +18,7 @@ class Ising2D
 public:
     Ising2D();
     Ising2D(const std::string& init);
-    inline double magnetization(){return (double)(2*m_spins.count() - N) / N;}
+    inline double magnetization(){return (2*(double)m_spins.count() - N) / N;}
     void step(double J, double h, double beta);
 private:
     std::bitset<N> m_spins;
