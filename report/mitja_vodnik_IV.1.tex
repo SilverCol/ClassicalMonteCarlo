@@ -1,0 +1,62 @@
+\documentclass[a4paper]{article}
+\usepackage[slovene]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+%\usepackage[margin=2cm, bottom=3cm, foot=1.5cm]{geometry}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{subcaption}
+\usepackage{hyperref}
+
+\newcommand{\tht}{\theta}
+\newcommand{\Tht}{\Theta}
+\newcommand{\dlt}{\delta}
+\newcommand{\eps}{\epsilon}
+\newcommand{\thalf}{\frac{3}{2}}
+\newcommand{\ddx}[1]{\frac{d^2#1}{dx^2}}
+\newcommand{\ddr}[2]{\frac{\partial^2#1}{\partial#2^2}}
+\newcommand{\mddr}[3]{\frac{\partial^2#1}{\partial#2\partial#3}}
+
+\newcommand{\der}[2]{\frac{d#1}{d#2}}
+\newcommand{\pder}[2]{\frac{\partial#1}{\partial#2}}
+\newcommand{\half}{\frac{1}{2}}
+\newcommand{\forth}{\frac{1}{4}}
+\newcommand{\q}{\underline{q}}
+\newcommand{\p}{\underline{p}}
+\newcommand{\x}{\underline{x}}
+\newcommand{\liu}{\hat{\mathcal{L}}}
+\newcommand{\bigO}[1]{\mathcal{O}\left( #1 \right)}
+\newcommand{\pauli}{\mathbf{\sigma}}
+\newcommand{\bra}[1]{\langle#1|}
+\newcommand{\ket}[1]{|#1\rangle}
+\newcommand{\id}[1]{\mathbf{1}_{2^{#1}}}
+\newcommand{\tinv}{\frac{1}{\tau}}
+
+\begin{document}
+
+    \title{\sc\large Višje računske metode\\
+		\bigskip
+		\bf\Large Klasični Monte-Carlo}
+	\author{Mitja Vodnik, 28182041}
+	\date{\today}
+	\maketitle
+
+    \ldots
+
+    \begin{equation}\label{eq1}
+        H = \half \sum_{j=1}^{N} p_j^2 + \sum_{j=1}^N U(q_j) + \sum_{j=1}^{N-1} V(q_{j+1} - q_j)
+    \end{equation}
+
+    \iffalse
+    \begin{figure}
+        \centering
+        \includegraphics[width = \textwidth]{slika16.pdf}
+        \caption{Odvisnost toka $J$ med termostatom in verigo v odvisnosti od časa vzorčenja $\tau$.
+        Računano je na anharmonski ($\lambda = 1$) verigi dolžine $N = 10$ in povprečeno po $1000$ vzorcih.
+        $J_1$ se nanaša na tok na levi, $J_2$ pa na desni strani verige.}
+        \label{slika6}
+    \end{figure}
+    \fi
+
+\end{document}
