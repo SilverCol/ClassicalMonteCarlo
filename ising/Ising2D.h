@@ -8,7 +8,6 @@
 #include <bitset>
 #include <random>
 #include <functional>
-#include <iostream>
 
 static const uint32_t L = 1 << 7;
 static const uint32_t N = L * L;
@@ -16,15 +15,21 @@ static const uint32_t N = L * L;
 class Ising2D
 {
 public:
-    Ising2D();
-    Ising2D(const std::string& init);
+    Ising2D(double j, double h);
+    Ising2D(double j, double h, const std::string& init);
     inline double magnetization(){return (2*(double)m_spins.count() - N) / N;}
-    void step(double J, double h, double beta);
+    inline double energy(){return m_energy;}
+    void step(double beta);
 private:
     std::bitset<N> m_spins;
+
     std::uniform_int_distribution<uint32_t> m_spot;
     std::uniform_real_distribution<double> m_chi;
     std::mt19937 m_twister;
+
+    double m_j;
+    double m_h;
+    double m_energy;
 };
 
 inline std::string randomState()

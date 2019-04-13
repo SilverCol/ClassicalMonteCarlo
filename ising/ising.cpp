@@ -3,11 +3,13 @@
 //
 
 #include <chrono>
+#include <iostream>
 #include "Ising2D.h"
 
 static const size_t steps = N * 10;
 
 static const double J = 1.;
+static const double H = 0.;
 
 static const double iBeta = 0;
 static const double dBeta = 0.1;
@@ -17,7 +19,7 @@ int main()
 {
     auto start = std::chrono::high_resolution_clock::now();
 
-    Ising2D lattice(randomState());
+    Ising2D lattice(J, H, randomState());
 
     double m = 0.;
     for (size_t n = 0; n < 1e7; ++n)
