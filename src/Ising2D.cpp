@@ -11,7 +11,7 @@ m_chi(0., 1.),
 m_twister(std::random_device{}())
 {}
 
-Ising2D::Ising2D(unsigned long init):
+Ising2D::Ising2D(const std::string& init):
 m_spins(init),
 m_spot(0, N - 1),
 m_chi(0., 1.),

@@ -2,10 +2,11 @@
 // Created by mitja on 13.4.2019.
 //
 
-#include <iostream>
+#include "Ising2D.h"
 
 int main()
 {
-    std::cout << sizeof(size_t) << ' ' << sizeof(uint32_t) << std::endl;
+    std::string initState = randomState();
+    std::cout << initState << std::endl;
     return 0;
 }
