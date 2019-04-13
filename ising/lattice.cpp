@@ -7,13 +7,13 @@
 #include <fstream>
 #include "Ising2D.h"
 
-static const size_t steps = N * 100;
+static const size_t steps = N * 10;
 
 static const double J = 1.;
 static const double H = 0.;
 
-static const double iBeta = 1;
-static const double dBeta = -.01;
+static const double iBeta = 0;
+static const double dBeta = .01;
 static const uint32_t nBeta = 100;
 
 void writeBinary(std::vector<double>& data, const std::string& file)
@@ -30,8 +30,8 @@ int main()
 {
     auto start = std::chrono::high_resolution_clock::now();
 
-    // Ising2D lattice(J, H, randomState());
-    Ising2D lattice(J, H);
+    Ising2D lattice(J, H, randomState());
+    //Ising2D lattice(J, H);
 
     std::vector<double> betas;
     std::string latticeProgression;
@@ -77,9 +77,8 @@ int main()
     lFile.append(std::to_string(H));
     lFile.append(".bin");
     std::cout << "Writing lattice progression to file: " << lFile << std::endl;
-
     std::ofstream output(lFile, std::ios::binary);
-    output.write(latticeProgression.data(), sizeof(latticeProgression.data()));
+    output << latticeProgression;
     output.close();
 
     auto finish = std::chrono::high_resolution_clock::now();
