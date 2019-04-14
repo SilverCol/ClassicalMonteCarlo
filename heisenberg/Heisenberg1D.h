@@ -25,7 +25,9 @@ class Heisenberg1D
 {
 public:
     Heisenberg1D(double j, double h);
+    Heisenberg1D(double j);
     void step(double beta);
+    void stepCarefully(double beta);
 private:
     Spin randomSpin();
 
