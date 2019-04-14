@@ -13,17 +13,20 @@ m_z(-1.0, 1.0),
 m_twister(std::random_device{}()),
 m_j(j),
 m_h(h),
-m_energy(-(j + h)*N)
+m_energy(-(j + h)*N),
+m_magnet({0.0, 0.0, 1.0})
 {
     if (h < 0) // downwards magnetic
     {
         for (auto& spin : m_spins) spin.z = -1.0;
+        m_magnet.z = -1.0;
     }
     if (j < 0) // AFM
     {
         // init to Neel
         for (uint32_t j = 0; j < N; j += 2) m_spins[j].z *= -1.0;
         m_energy = j*N;
+        m_magnet.z = 0.0;
     }
 }
 
@@ -36,7 +39,8 @@ m_z(-1.0, 1.0),
 m_twister(std::random_device{}()),
 m_j(j),
 m_h(),
-m_energy(j*N)
+m_energy(j*N),
+m_magnet({0.0, 0.0, 0.0})
 {
     for (uint32_t j = 0; j < N; j += 2) m_spins[j].z = -1.0;
 }
@@ -78,11 +82,13 @@ void Heisenberg1D::step(double beta)
     {
         m_spins[j] = s;
         m_energy += change;
+        m_magnet -= ds / N;
     }
     else if (m_chi(m_twister) < std::exp(-beta * change))
     {
         m_spins[j] = s;
         m_energy += change;
+        m_magnet -= ds / N;
     }
 }
 
@@ -92,7 +98,7 @@ void Heisenberg1D::stepCarefully(double beta) // for constant 0 magnetization
     const uint32_t j = m_spot(m_twister);
     const Spin s = randomSpin();
     const Spin ds = m_spins[j] - s;
-    
+
     // new neighbour to compensate
     const uint32_t jp = (j + 1) % N;
     const Spin sp = m_spins[jp] + ds;
