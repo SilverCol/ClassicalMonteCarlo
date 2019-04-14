@@ -4,10 +4,11 @@ import numpy as np
 import matplotlib.animation as animation
 
 frames = 1000
-L = 128
+L = 7
+title = 'Ohlajanje AFM Isingove mreže'
 
-lattice = np.fromfile("lattice16384_1.000000_0.000000.bin", dtype=np.dtype('b'))
-betas = np.fromfile("betas16384_1.000000_0.000000.bin")
+lattice = np.fromfile("lattice" + str(L*L) + "_-1.000000_0.000000.bin", dtype=np.dtype('b'))
+betas = np.fromfile("betas" + str(L*L) + "_-1.000000_0.000000.bin")
 temps = 1/betas
 lattice = np.reshape(lattice, (frames, L, L))
 lattice -= 48
@@ -15,7 +16,7 @@ lattice -= 48
 fig = plt.figure()
 ax = fig.subplots(subplot_kw=dict(aspect='equal', autoscale_on=False, xlim=(0, L - 1), ylim=(0, L - 1)))
 ax.axis('off')
-ax.set_title('Segrevanje Isingove mreže')
+ax.set_title(title)
 
 image = ax.imshow(lattice[0], mpl.colors.ListedColormap(['#ff7f0e', '#1f77b4']))
 text = ax.text(1.05, 1.05, '', transform=ax.transAxes)

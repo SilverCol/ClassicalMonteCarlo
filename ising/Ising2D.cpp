@@ -14,6 +14,17 @@ m_h(h),
 m_energy(-j*2*N - std::abs(h)*N)
 {
     if (h >= 0) m_spins = ~m_spins;
+    if (j < 0)
+    {
+        if (L % 2 == 0) std::cerr << "Should be using odd dimension for AFM." << std::endl;
+        for (uint32_t i = 0; i < N; i += 2)
+        {
+            m_spins[i].flip();
+            if (i % L == L - 2) ++i;
+            else if (i % L == L - 1) --i;
+        }
+    }
+    else if (L % 2 != 0) std::cerr << "Using odd dimension for FM." << std::endl;
 }
 
 Ising2D::Ising2D(double j, double h, const std::string& init) :

@@ -46,7 +46,7 @@ int main()
         for (size_t i = 0; i < steps; ++i)
         {
             lattice.step(beta);
-            if (i % 16384 == 0)
+            if (i % N == 0)
             {
                 for (uint32_t r = 0; r < N; ++r)
                 {
@@ -59,7 +59,7 @@ int main()
         beta += dBeta;
     }
 
-    std::string bFile("../data/betas");
+    std::string bFile("../../ising/data/betas");
     bFile.append(std::to_string(N));
     bFile.append("_");
     bFile.append(std::to_string(J));
@@ -69,7 +69,7 @@ int main()
     std::cout << "Writing betas to file: " << bFile << std::endl;
     writeBinary(betas, bFile);
 
-    std::string lFile("../data/lattice");
+    std::string lFile("../../ising/data/lattice");
     lFile.append(std::to_string(N));
     lFile.append("_");
     lFile.append(std::to_string(J));

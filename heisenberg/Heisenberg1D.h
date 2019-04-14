@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <random>
+#include "pcg_random.hpp"
 
 static const uint32_t N = 1 << 10;
 
@@ -46,7 +47,7 @@ private:
     std::uniform_real_distribution<double> m_chi;
     std::uniform_real_distribution<double> m_phi;
     std::uniform_real_distribution<double> m_z;
-    std::mt19937 m_twister;
+    pcg32_fast m_twister;
 
     double m_j;
     double m_h;
