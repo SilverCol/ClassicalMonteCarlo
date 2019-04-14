@@ -1,0 +1,1 @@
+add_executable(run Heisenberg1D.cpp)

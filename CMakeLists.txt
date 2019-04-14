@@ -4,3 +4,4 @@ project(vaja_IV_1)
 set(CMAKE_CXX_STANDARD 14)
 
 add_subdirectory(ising)
+add_subdirectory(heisenberg)
