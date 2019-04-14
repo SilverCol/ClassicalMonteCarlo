@@ -9,6 +9,7 @@
 #include "Ising2D.h"
 
 static const size_t steps = N * 100;
+static const uint8_t modulo = 10;
 
 static const double J = 1.;
 static const double H = 0.;
@@ -48,8 +49,11 @@ int main()
         for (size_t i = 0; i < steps; ++i)
         {
             lattice.step(beta);
-            magnetVector.push_back(lattice.magnetization());
-            energyVector.push_back(lattice.energy());
+            if (i % modulo == 0)
+            {
+                magnetVector.push_back(lattice.magnetization());
+                energyVector.push_back(lattice.energy());
+            }
         }
 
         beta += dBeta;
@@ -63,22 +67,22 @@ int main()
 
         std::vector<double>& magnetVector = observable.second.first;
         output.push_back(
-                std::accumulate(magnetVector.begin(), magnetVector.end(), 0.0) / steps
+                modulo * std::accumulate(magnetVector.begin(), magnetVector.end(), 0.0) / steps
                 ); //mean mag
         output.push_back(
-                std::inner_product(magnetVector.begin(), magnetVector.end(), magnetVector.begin(), 0.0) / steps
+                modulo * std::inner_product(magnetVector.begin(), magnetVector.end(), magnetVector.begin(), 0.0) / steps
                 ); //mean mag sqr
 
         std::vector<double>& energyVector = observable.second.second;
         output.push_back(
-                std::accumulate(energyVector.begin(), energyVector.end(), 0.0) / steps
+                modulo * std::accumulate(energyVector.begin(), energyVector.end(), 0.0) / steps
         ); //mean enery
         output.push_back(
-                std::inner_product(energyVector.begin(), energyVector.end(), energyVector.begin(), 0.0) / steps
+                modulo * std::inner_product(energyVector.begin(), energyVector.end(), energyVector.begin(), 0.0) / steps
         ); //mean energy sqr
     }
 
-    std::string file("../data/");
+    std::string file("../../ising/data/");
     if (dBeta < 0) file.append("heating");
     else file.append("cooling");
     file.append(std::to_string(N));

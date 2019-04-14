@@ -8,6 +8,7 @@
 #include <bitset>
 #include <random>
 #include <functional>
+#include "pcg_random.hpp"
 
 static const uint32_t L = 1 << 7;
 static const uint32_t N = L * L;
@@ -26,7 +27,7 @@ private:
 
     std::uniform_int_distribution<uint32_t> m_spot;
     std::uniform_real_distribution<double> m_chi;
-    std::mt19937 m_twister;
+    pcg32 m_twister;
 
     double m_j;
     double m_h;
@@ -35,7 +36,7 @@ private:
 
 inline std::string randomState()
 {
-    std::mt19937 twister(std::random_device{}());
+    pcg32 twister(std::random_device{}());
     std::uniform_int_distribution<char> bits('0', '1');
     auto bit = std::bind(bits, twister);
 
