@@ -36,6 +36,10 @@
 \newcommand{\s}{\sigma}
 \newcommand{\us}{\underline{\s}}
 \newcommand{\vs}{\vec{\s}}
+\newcommand{\vr}{\vec{r}}
+\newcommand{\vq}{\vec{q}}
+\newcommand{\vv}{\vec{v}}
+\newcommand{\vo}{\vec{\omega}}
 \newcommand{\uvs}{\underline{\vs}}
 \newcommand{\expected}[1]{\langle #1 \rangle}
 \newcommand{\D}{\Delta}
@@ -157,11 +161,19 @@
 
     \begin{enumerate}
         \item Izberemo nakjučno mesto v verigi $j$.
-        \item Izberemo novo smer spina $\vs'_j$ enakomerno porazdeljeno po $S^2$.
-        \item Določimo novo smer soseda, ki kompenzira spremembo:
+        \item Določimo os med sosednjima spinoma $\vo = \half (\vs_j + \vs_{j+1})$.
+        Os naj določa normalno ravnino $\mathcal{R}^2$ z izhodiščem v koncu osi.
+        Nova spina $\vs'_{j}$ in $\vs'_{j+1}$ morata ležati na preseku sfere $S^2$ s to ravnino, to je, na krožnici
+        s središčem v $\vo$, ki vsebuje tudi $\vs_j$ in $\vs_{j+1}$.
+        \item Če sta spina ravno nasprotna ($|\vo| = 0$), izberemo poljuben $\vs'_j$ enakomerno porazdeljen na sferi,
+        vzamemo $\vs'_{j+1} = -\vs'_j$ in preskočimo naslednjih nekaj korakov do računanja energije (točka 7).
+        \item Določimo ortogonalno bazo normalne ravnine, ki je normirana na radij preseka:
         \begin{equation}\label{eq12}
-            \vs'_{j+1} = \vs_{j+1} + \D \vs'_j
+            \vr = \vs_{j} - \vo, \quad \vq = \frac{1}{|\vo|} \frac{\vs_{j+1} \times \vs_{j}}{2}
         \end{equation}
+        \item Izberemo enakomerno porazdeljen polarni kot $\phi \in [0, 2\pi]$, ter določimo nov spin zapisan v bazi
+        normalne ravnine: $\vv = \vr \cos{\phi} + \vq \sin{\phi}$
+        \item Predlagana nova spina sta sedaj $\vs'_{j} = \vo + \vv$ in $\vs'_{j+1} = \vo - \vv$
         \item Izračunamo spremembo energije:
         \begin{equation}\label{eq13}
             \D E_j = J(\D \vs'_{j} \cdot (\vs_{j-1} - \vs_{j+2}) + \vs_j \cdot \vs_{j+1} - \vs'_j \cdot \vs'_{j+1})

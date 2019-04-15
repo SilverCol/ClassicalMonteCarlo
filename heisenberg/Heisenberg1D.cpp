@@ -113,29 +113,33 @@ std::tuple<Spin, Spin, Spin> Heisenberg1D::carefulSpin(const Spin& s1, const Spi
     double phi = m_phi(m_twister);
     Spin v = std::cos(phi) * r + std::sin(phi) * q;
 
+    // new spins
     Spin s = w + v;
-
     return std::make_tuple(s, w - v, s1 - s);
 }
 
 void Heisenberg1D::stepCarefully(double beta) // for constant 0 magnetization
 {
-    // random spot, and new spin -> change in spin
+    // random spot
     const uint32_t j = m_spot(m_twister);
     const uint32_t jp = (j + 1) % N;
+
+    // new spins
     const std::tuple<Spin, Spin, Spin> newSpins = carefulSpin(m_spins[j], m_spins[jp]);
     const Spin& s = std::get<0>(newSpins);
     const Spin& sp = std::get<1>(newSpins);
     const Spin& ds = std::get<2>(newSpins);
 
-    // energy difference
-    double change = m_spins[j] * m_spins[jp] - s * sp;
     // right neighbour
     uint32_t jpn = (jp + 1) % N;
+
     // left neighbour
     uint32_t jn;
     if (j != 0) jn = j - 1;
     else jn = N;
+
+    // energy difference
+    double change = m_spins[j] * m_spins[jp] - s * sp;
     change += (m_spins[jn] - m_spins[jpn]) * ds;
     change *= m_j;
 
