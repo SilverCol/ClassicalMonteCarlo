@@ -2,7 +2,7 @@ from matplotlib import pyplot as plt
 import numpy as np
 from scipy import optimize as opt
 
-observables = np.fromfile("cooling65536_1.000000_0.000000.bin")
+observables = np.fromfile("heating16384_1.000000_0.000000.bin")
 observables = np.reshape(observables, (5, int(len(observables) / 5)), 'F')
 
 betas = observables[0]

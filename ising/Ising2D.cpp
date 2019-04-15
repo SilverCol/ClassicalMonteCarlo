@@ -13,7 +13,10 @@ m_j(j),
 m_h(h),
 m_energy(-j*2*N - std::abs(h)*N)
 {
+    // align spins with field
     if (h >= 0) m_spins = ~m_spins;
+    
+    // if AFM make a Neel state
     if (j < 0)
     {
         if (L % 2 == 0) std::cerr << "Should be using odd dimension for AFM." << std::endl;
@@ -25,6 +28,9 @@ m_energy(-j*2*N - std::abs(h)*N)
         }
     }
     else if (L % 2 != 0) std::cerr << "Using odd dimension for FM." << std::endl;
+    
+    // initialize magnetization
+    m_magnet = 2*(int32_t)m_spins.count() - N;
 }
 
 Ising2D::Ising2D(double j, double h, const std::string& init) :
@@ -51,6 +57,9 @@ m_energy(-h*(2*m_spins.count() - N))
         if (m_spins[r] ^ m_spins[rn]) m_energy += j;
         else m_energy -= j;
     }
+    
+    // initialize magnetization
+    m_magnet = 2*(int32_t)m_spins.count() - N;
 }
 
 void Ising2D::step(double beta)
@@ -94,10 +103,14 @@ void Ising2D::step(double beta)
     {
         m_spins.flip(r);
         m_energy += change;
+        if (m_spins.test(r)) m_magnet += 2;
+        else m_magnet -= 2;
     }
     else if (m_chi(m_twister) < std::exp(-beta * change))
     {
         m_spins.flip(r);
         m_energy += change;
+        if (m_spins.test(r)) m_magnet += 2;
+        else m_magnet -= 2;
     }
 }

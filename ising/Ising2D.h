@@ -10,7 +10,7 @@
 #include <functional>
 #include "pcg_random.hpp"
 
-static const uint32_t L = (1 << 8);
+static const uint32_t L = (1 << 7);
 static const uint32_t N = L * L;
 
 class Ising2D
@@ -18,7 +18,7 @@ class Ising2D
 public:
     Ising2D(double j, double h);
     Ising2D(double j, double h, const std::string& init);
-    inline double magnetization(){return (2*(double)m_spins.count() - N) / N;}
+    inline double magnetization(){return (double)m_magnet/N;}
     inline double energy(){return m_energy;}
     inline const std::bitset<N>& lattice() const {return m_spins;}
     void step(double beta);
@@ -32,6 +32,7 @@ private:
     double m_j;
     double m_h;
     double m_energy;
+    int32_t m_magnet;
 };
 
 inline std::string randomState()
