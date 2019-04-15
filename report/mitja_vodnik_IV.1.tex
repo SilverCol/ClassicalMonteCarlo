@@ -35,6 +35,8 @@
 \newcommand{\tinv}{\frac{1}{\tau}}
 \newcommand{\s}{\sigma}
 \newcommand{\us}{\underline{\s}}
+\newcommand{\vs}{\vec{\s}}
+\newcommand{\uvs}{\underline{\vs}}
 \newcommand{\expected}[1]{\langle #1 \rangle}
 \newcommand{\D}{\Delta}
 
@@ -109,6 +111,62 @@
 
         \item Če smo spin obrnili, posodobimo vrednosti $M$ in $E$ v sistemu.
 
+    \end{enumerate}
+
+    \section{1D Heisenbergov model}
+
+    Vzemimo sedaj še enadimenzionalno verigo $N$ Heisenbergovih spinov $|\vs_j| = 1$.
+    Energija konfiguracije $\uvs = (\vs_1, \ldots, \vs_N)$ je:
+
+    \begin{equation}\label{eq8}
+        E(\uvs) = -\sum_{j=1}^N (J \vs_j \cdot \vs_{j+1} + h\s_j^z)
+    \end{equation}
+
+    Simulacija v tem primeru poteka podobno kot v primeru Isingove mreže, spremenijo pa se nekateri detajli
+    Metropolisovega sprehoda:
+
+    \begin{enumerate}
+        \item Izbira nove orientacije $\vs'_j$ izbranega spina $\vs_j$ je bolj zapletena, saj ima tri dimenzije.
+        To je problem naključne izbire točke na sferi $S^2$, postopek je naslednji:
+        \begin{enumerate}
+            \item Izberemo enakomerno porazdeljena koordinato $z \in [-1, 1]$ in polarni kot $\phi \in [0, 2\pi]$.
+            \item Določimo radij preseka sfere na višini $z$: $r = \sqrt{1 - z^2}$
+            \item Določimo koordinati $x$ in $y$:
+            \begin{equation}\label{eq9}
+                x = r\cos{\phi}, \quad y = r\sin{\phi}
+            \end{equation}
+        \end{enumerate}
+        \item Spremembo energije ob zgornji spremembi orientacije spina izračunamo kot:
+        \begin{equation}\label{eq10}
+            \begin{split}
+                \D E_j = &\D \vs'_j \cdot \left( J(\vs_{j-1} + \vs_{j+1}) + h(0, 0, 1) \right), \\
+                &\D \vs'_j = \vs_j - \vs'_j = -\D \vs_j
+            \end{split}
+        \end{equation}
+    \end{enumerate}
+
+    Omejimo se le na del faznega prostora, kjer ima veriga ničelno magnetizacijo.
+    V tem primeru moramo poskrbeti, da na vsakem koraku Metropolisovega sprehoda ohranimo magnetizacijo - algoritem
+    prilagodimo: spreminjamo po dva sosednja spina, tako da se njuna vsota ohranja:
+
+    \begin{equation}\label{eq11}
+        \vs'_j + \vs'_{j+1} = \vs_j + \vs_{j+1}
+    \end{equation}
+
+    Sprehod je tedaj nslednji:
+
+    \begin{enumerate}
+        \item Izberemo nakjučno mesto v verigi $j$.
+        \item Izberemo novo smer spina $\vs'_j$ enakomerno porazdeljeno po $S^2$.
+        \item Določimo novo smer soseda, ki kompenzira spremembo:
+        \begin{equation}\label{eq12}
+            \vs'_{j+1} = \vs_{j+1} + \D \vs'_j
+        \end{equation}
+        \item Izračunamo spremembo energije:
+        \begin{equation}\label{eq13}
+            \D E_j = J(\D \vs'_{j} \cdot (\vs_{j-1} - \vs_{j+2}) + \vs_j \cdot \vs_{j+1} - \vs'_j \cdot \vs'_{j+1})
+        \end{equation}
+        \item Postopek naprej je že opisan v razdelku o Isingovem modelu.
     \end{enumerate}
 
     \iffalse
