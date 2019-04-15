@@ -2,7 +2,7 @@ from matplotlib import pyplot as plt
 import numpy as np
 from scipy import optimize as opt
 
-observables = np.fromfile("heating16384_1.000000_0.000000.bin")
+observables = np.fromfile("cooling65536_1.000000_0.000000.bin")
 observables = np.reshape(observables, (5, int(len(observables) / 5)), 'F')
 
 betas = observables[0]
@@ -29,7 +29,7 @@ ax[1].grid()
 ax[2].grid()
 
 ax[0].plot(betas, mags, '.')
-ax[0].plot(betas, magnet(betas, popt[0]), '-')
+# ax[0].plot(betas, magnet(betas, popt[0]), '-')
 ax[0].set_ylabel('$M$')
 ax[1].plot(betas, chis, '-')
 ax[1].set_ylabel('$\\chi$')

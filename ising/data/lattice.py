@@ -4,12 +4,13 @@ import numpy as np
 import matplotlib.animation as animation
 
 frames = 1000
-L = 7
-title = 'Ohlajanje AFM Isingove mreže'
+L = 256
+title = 'Ohlajanje Isingove mreže'
 
-lattice = np.fromfile("lattice" + str(L*L) + "_-1.000000_0.000000.bin", dtype=np.dtype('b'))
-betas = np.fromfile("betas" + str(L*L) + "_-1.000000_0.000000.bin")
+lattice = np.fromfile("lattice" + str(L*L) + "_1.000000_0.000000.bin", dtype=np.dtype('b'))
+betas = np.fromfile("betas" + str(L*L) + "_1.000000_0.000000.bin")
 temps = 1/betas
+print(temps)
 lattice = np.reshape(lattice, (frames, L, L))
 lattice -= 48
 
@@ -19,7 +20,7 @@ ax.axis('off')
 ax.set_title(title)
 
 image = ax.imshow(lattice[0], mpl.colors.ListedColormap(['#ff7f0e', '#1f77b4']))
-text = ax.text(1.05, 1.05, '', transform=ax.transAxes)
+text = ax.text(.0, -.05, '', transform=ax.transAxes)
 
 
 def init():

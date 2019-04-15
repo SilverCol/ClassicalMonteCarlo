@@ -14,8 +14,8 @@ static const uint8_t modulo = 10;
 static const double J = 1.;
 static const double H = 0.;
 
-static const double iBeta = 1;
-static const double dBeta = -.01;
+static const double iBeta = 0;
+static const double dBeta = .1;
 static const uint32_t nBeta = 100;
 
 void writeBinary(std::vector<double>& data, const std::string& file)

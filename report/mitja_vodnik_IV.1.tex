@@ -35,6 +35,8 @@
 \newcommand{\tinv}{\frac{1}{\tau}}
 \newcommand{\s}{\sigma}
 \newcommand{\us}{\underline{\s}}
+\newcommand{\expected}[1]{\langle #1 \rangle}
+\newcommand{\D}{\Delta}
 
 \begin{document}
 
@@ -47,26 +49,67 @@
 
     S pomočjo Metropolisovega algoritma bomo raziskali ravnovesna termalna stanja klasičnih Isingovih in Heisenbergovih
     spinov.
+    Konkretno si želimo računati pričakovane vrednosti opazljivk $a(\x)$ v visokodimenzionalnem faznem prostoru
+    $\x \in \mathcal{R}^N, N \gg 1$, kjer poznamo verjetnostno porazdelitev $w(\x), d\mu(\x) = w(\x)d^N\x$.
+    Z Metropolisovim algoritmom pridemo do točk iz faznega prostora $\x_j, j = 1, \ldots, M$ porazdeljenih po
+    verjetnostni gostoti $w(\x)$ - pričakovane vrednosti opazljivk tedaj dobimo kot:
+
+    \begin{equation}\label{eq1}
+        \expected{a} = \int d^N\x w(\x) a(\x) = \lim_{M \to \infty} \frac{1}{M} \sum_{j=1}^M a(\x_j)
+    \end{equation}
 
     \section{2D Isingov model}
 
     Vzemimo kvadratno mrežo klasičnih Isingovih spinov:
 
-    \begin{equation}\label{eq1}
+    \begin{equation}\label{eq2}
         \s_r \in \{ -1, 1 \}, \quad r \in L \subset \mathbb{Z}^2
     \end{equation}
 
     Energijo take mreže v konfiguraciji spinov $\us$ in magnetnem polju $h$ zapišemo kot:
 
-    \begin{equation}\label{eq2}
+    \begin{equation}\label{eq3}
         E(\us) = \sum_{<r, r'>} \s_r \s_{r'} - h\sum_r \s_r
     \end{equation}
 
     Vzamemo še, da so točke v falznem prostoru porazdeljene po Boltzmanovi porazdelitvi:
 
-    \begin{equation}\label{eq3}
+    \begin{equation}\label{eq4}
         w(\us) = Z^{-1}\exp(-\beta E(\us))
     \end{equation}
+
+    Želimo simulirati obnašanje pričakovanih vrednosti magnetne susceptibilnosti $\chi$ ter toplotne kapacitete $C_V$
+    od temperature $T = \frac{1}{\beta}$.
+    Ti se izražata kar preko fluktuacij magnetizacije in energije:
+
+    \begin{equation}\label{eq5}
+        \chi = \beta (\expected{M^2} - \expected{M}^2), \quad C_V = \beta^2(\expected{E^2} - \expected{E}^2)
+    \end{equation}
+
+    Potek simulacije je naslednji: Izberemo si primerno začetno stanje (osnovno, če začnemo pri
+    zelo nizki temperaturi oziroma naključno, če začnemo pri zelo visoki), nato se z Metropolisovim algoritmom
+    sprehajamo po faznem prostoru in na vsakih nekaj korakov izračunamo opazljivki $M$ in $E$.
+    Po končanem sprehodu izračunamo fluktuaciji in tako določimo vrednosti $\chi$ in $C_V$.
+    Ta postopek ponavljamo pri različnih vrednostih inverzne temperature $\beta$. \\
+
+    Natančna izvedba Metropolisovega sprehoda je naslednja:
+
+    \begin{enumerate}
+        \item Naključno si izberemo mesto $r$ na mreži, kjer bomo poskusili obrniti spin.
+
+        \item Izračunamo razliko v energiji, če bi spin obrnili:
+        \begin{equation}\label{eq6}
+        \D E_r = 2\s_r \left( \sum_{r'}^{<r, r'>} \s_{r'} + h \right)
+        \end{equation}
+
+        \item Če $\D E_r < 0$, spin obrnemo, sicer izberemo enakomerno porazdeljen $\xi \in [0, 1]$ in spin obrnemo če:
+        \begin{equation}\label{eq7}
+            \xi < \exp(-\beta \D E_r)
+        \end{equation}
+
+        \item Če smo spin obrnili, posodobimo vrednosti $M$ in $E$ v sistemu.
+
+    \end{enumerate}
 
     \iffalse
     \begin{figure}
