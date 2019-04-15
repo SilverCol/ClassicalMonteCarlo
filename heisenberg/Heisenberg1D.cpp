@@ -4,6 +4,8 @@
 
 #include "Heisenberg1D.h"
 
+static const double spinEpsilon = 1e-15;
+
 Heisenberg1D::Heisenberg1D(double j, double h):
 m_spins(N, {0.0, 0.0, 1.0}),
 m_spot(0, N - 1),
@@ -92,16 +94,39 @@ void Heisenberg1D::step(double beta)
     }
 }
 
+std::tuple<Spin, Spin, Spin> Heisenberg1D::carefulSpin(const Spin& s1, const Spin& s2)
+{
+    // mid-spin axis
+    Spin w = (s1 + s2) / 2;
+    double h = abs(w);
+
+    // axis is zero - spins are anti-parallel
+    if (h < spinEpsilon)
+    {
+        Spin s = randomSpin();
+        return std::make_tuple(s, -s, s1 - s);
+    }
+
+    // the section base + vector with a random polar angle
+    Spin r = s1 - w;
+    Spin q = vector_product(s2, s1) / (2*h);
+    double phi = m_phi(m_twister);
+    Spin v = std::cos(phi) * r + std::sin(phi) * q;
+
+    Spin s = w + v;
+
+    return std::make_tuple(s, w - v, s1 - s);
+}
+
 void Heisenberg1D::stepCarefully(double beta) // for constant 0 magnetization
 {
     // random spot, and new spin -> change in spin
     const uint32_t j = m_spot(m_twister);
-    const Spin s = randomSpin();
-    const Spin ds = m_spins[j] - s;
-
-    // new neighbour to compensate
     const uint32_t jp = (j + 1) % N;
-    const Spin sp = m_spins[jp] + ds;
+    const std::tuple<Spin, Spin, Spin> newSpins = carefulSpin(m_spins[j], m_spins[jp]);
+    const Spin& s = std::get<0>(newSpins);
+    const Spin& sp = std::get<1>(newSpins);
+    const Spin& ds = std::get<2>(newSpins);
 
     // energy difference
     double change = m_spins[j] * m_spins[jp] - s * sp;

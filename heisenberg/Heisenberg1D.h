@@ -20,8 +20,12 @@ struct Spin
 
 inline Spin operator+(const Spin& s1, const Spin& s2) {return {s1.x + s2.x, s1.y + s2.y, s1.z + s2.z};}
 inline Spin operator-(const Spin& s1, const Spin& s2) {return {s1.x - s2.x, s1.y - s2.y, s1.z - s2.z};}
+inline Spin operator-(const Spin& s) {return {-s.x, -s.y, -s.z};}
 inline void operator-=(Spin& s1, const Spin& s2) {s1 = s1 - s2;}
 inline double operator*(const Spin& s1, const Spin& s2) {return s1.x * s2.x + s1.y * s2.y + s1.z * s2.z;}
+inline Spin operator*(double a, const Spin& s) {return {a * s.x, a * s.y, a * s.z};}
+inline Spin vector_product(const Spin& s1, const Spin& s2)
+{return {s1.y*s2.z - s1.z*s2.y, s1.z*s2.x - s1.x*s2.z, s1.x*s2.y - s1.y*s2.x};}
 inline Spin operator/(const Spin& s1, double d) {return {s1.x / d, s1.y / d, s1.z / d};}
 inline double abs(const Spin& s){return std::sqrt(s*s);}
 
@@ -40,6 +44,7 @@ public:
 
 private:
     Spin randomSpin();
+    std::tuple<Spin, Spin, Spin> carefulSpin(const Spin& s1, const Spin& s2);
 
     std::vector<Spin> m_spins;
 
