@@ -15,8 +15,8 @@ static const double J = 1.;
 static const double H = 0.;
 
 static const double iBeta = 1;
-static const double dBeta = -.01;
-static const uint32_t nBeta = 100;
+static const double dBeta = -.001;
+static const uint32_t nBeta = 1000;
 
 void writeBinary(std::vector<double>& data, const std::string& file)
 {

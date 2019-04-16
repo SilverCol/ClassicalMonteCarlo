@@ -33,7 +33,7 @@ m_magnet({0.0, 0.0, 1.0})
 }
 
 Heisenberg1D::Heisenberg1D(double j): // for constant 0 magnetization
-m_spins(N, {0.0, 0.0, 1.0}),
+m_spins(N),
 m_spot(0, N - 1),
 m_chi(0.0, 1.0),
 m_phi(0.0, 6.283185307179586),
@@ -44,7 +44,8 @@ m_h(),
 m_energy(j*N),
 m_magnet({0.0, 0.0, 0.0})
 {
-    for (uint32_t j = 0; j < N; j += 2) m_spins[j].z = -1.0;
+    double dphi = 6.283185307179586 / N;
+    for (uint32_t j = 0; j < N; j += 2) m_spins[j] = {std::cos(j*dphi), 0.0, std::sin(j*dphi)};
 }
 
 Spin Heisenberg1D::randomSpin()

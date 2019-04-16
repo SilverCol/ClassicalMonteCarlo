@@ -10,7 +10,7 @@
 #include <functional>
 #include "pcg_random.hpp"
 
-static const uint32_t L = (1 << 7);
+static const uint32_t L = (1 << 8);
 static const uint32_t N = L * L;
 
 class Ising2D

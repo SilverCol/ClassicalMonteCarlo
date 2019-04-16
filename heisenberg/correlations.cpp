@@ -8,14 +8,14 @@
 #include <map>
 #include "Heisenberg1D.h"
 
-static const size_t steps = 1 << 20;
-static const size_t modulo = 1 << 10;
+static const size_t steps = 1 << 25;
+static const size_t modulo = 1 << 15;
 
 static const double J = 1.;
 static const double H = 0.;
 
-static const double iBeta = 100;
-static const double dBeta = -1;
+static const double iBeta = 50;
+static const double dBeta = -.5;
 static const uint32_t nBeta = 100;
 
 void writeBinary(std::vector<double>& data, const std::string& file)

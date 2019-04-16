@@ -9,7 +9,7 @@
 #include <random>
 #include "pcg_random.hpp"
 
-static const uint32_t N = 1 << 6;
+static const uint32_t N = 1 << 8;
 
 struct Spin
 {
