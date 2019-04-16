@@ -8,14 +8,14 @@
 #include <map>
 #include "Heisenberg1D.h"
 
-static const size_t steps = N * 100;
-static const uint8_t modulo = 100;
+static const size_t steps = 1 << 20;
+static const size_t modulo = 1 << 10;
 
 static const double J = 1.;
 static const double H = 0.;
 
-static const double iBeta = 1;
-static const double dBeta = -.01;
+static const double iBeta = 100;
+static const double dBeta = -1;
 static const uint32_t nBeta = 100;
 
 void writeBinary(std::vector<double>& data, const std::string& file)
@@ -32,7 +32,7 @@ int main()
 {
     auto start = std::chrono::high_resolution_clock::now();
 
-    Heisenberg1D chain(J, H);
+    Heisenberg1D chain(J);
 
     std::map<double, std::vector<std::vector<double> > > correlations;
 
@@ -46,7 +46,7 @@ int main()
 
         for (size_t i = 0; i < steps; ++i)
         {
-            chain.step(beta);
+            chain.stepCarefully(beta);
             if (i % modulo == 0)
             {
                 for (uint32_t j = 0; j < N; ++j)
