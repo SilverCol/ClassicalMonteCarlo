@@ -68,10 +68,7 @@ int main()
         std::vector<std::vector<double> >& correlationTable = entry.second;
         for (const auto& spot : correlationTable)
         {
-            output.push_back( modulo * std::accumulate(spot.begin(), spot.end(), 0.0) / steps ); //mean mag
-            output.push_back(
-                    modulo * std::inner_product(spot.begin(), spot.end(), spot.begin(), 0.0) / steps
-            ); //mean mag sqr
+            output.push_back( modulo * std::accumulate(spot.begin(), spot.end(), 0.0) / steps ); // mean
         }
     }
 
