@@ -9,7 +9,7 @@
 #include <random>
 #include "pcg_random.hpp"
 
-static const uint32_t N = 1 << 8;
+static const uint32_t N = 1 << 7;
 
 struct Spin
 {
@@ -37,7 +37,9 @@ public:
 
     inline double magnetization(){return abs(m_magnet);}
     inline double energy(){return m_energy;}
-    inline double correlation(uint32_t r){return m_spins[0].z * m_spins[r].z;}
+    inline double correlationX(uint32_t r){return m_spins[0].x * m_spins[r].x;}
+    inline double correlationY(uint32_t r){return m_spins[0].y * m_spins[r].y;}
+    inline double correlationZ(uint32_t r){return m_spins[0].z * m_spins[r].z;}
 
     void step(double beta);
     void stepCarefully(double beta);

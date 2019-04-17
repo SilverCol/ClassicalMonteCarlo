@@ -117,12 +117,65 @@
 
     \end{enumerate}
 
+    \subsection{Rezultati}
+
+    Simulacijo poganjamo za $200$ vrednosti inverzne temperature $\beta$ enakomerno razporejenih na intervalu
+    $(0, 1]$, pri vsaki temperaturi opravimo po $100 \times N$ Metropolisovih korakov.\\
+
+    Če začnemo pri visoki temperaturi ($\beta = 0$) in sistem ohlajamo, bomo sicer prišli v delno urejeno stanje,
+    a nič nam ne garantira, da bomo zadeli osnovnega.
+    Primer takega ohlajanja je lepo viden v priloženi animaciji \textit{cool\_ising.gif}.\\
+
+    Najbolj nas zanima prehod med urejenim in neurejenim stanjem, zato je boljše začeti pri nizki temperaturi
+    ($\beta = 1$), v osnovnem (popolnoma urejenem) stanju in sistem segrevati.
+    Na ta način dobimo sliko \ref{slika1}.
+    Na njej je prikazana temperaturna odvisnost magnetizacije $M$, magnetne susceptibilnosti $\chi$ ter toplotne
+    kapacitete $C_V$ v okolici faznega prehoda, za različno velike Isingove mreže.
+
+    \begin{figure}
+        \centering
+        \begin{subfigure}{\textwidth}
+            \includegraphics[width = \textwidth]{slika1.pdf}
+            \caption{}
+        \end{subfigure}
+        \begin{subfigure}{\textwidth}
+            \includegraphics[width = \textwidth]{slika2.pdf}
+            \caption{}
+        \end{subfigure}
+        \begin{subfigure}{\textwidth}
+            \includegraphics[width = \textwidth]{slika3.pdf}
+            \caption{}
+        \end{subfigure}
+        \caption{Fazni prehodi Isingovega modela za različno velike mreže.
+        Oranžna črta prilagojena na graf magnetizacije predstavlja Onsagerjevo formulo za spontano magnetizacijo.
+        Z rdečo vertikalno črto je označena kritična temperatura določena s to prilagoditvijo.
+        Vse je računano pri sklopitveni konstanti $J = 1$.}
+        \label{slika1}
+    \end{figure}
+
+    Za oceno kritične temperature sistema ($T_c = \frac{1}{\beta_c}$) na graf magnetizacije prilagodimo Onsagerjev
+    izraz za temperaturno odvisnost spontane magnetizacije:
+
+    \begin{equation}\label{eq8}
+        M(\beta) = \left( 1 - \sinh^{-4} \left( \log(1 + \sqrt{2}) \frac{\beta}{\beta_c} \right) \right)^{\frac{1}{8}}
+    \end{equation}
+
+    Vrednost, ki jo ta izraz predvideva (pri sklopitveni konstanti $J = 1$) je:
+
+    \begin{equation}\label{eq9}
+        \beta_c = \frac{\log(1 + \sqrt{2})}{2J} \approx 0.44
+    \end{equation}
+
+    Mi dobimo podobno, a nekoliko nižjo vrednost.
+    Poglejmo si še susceptibilnost $\chi$ ter toplotno kapaciteto $C_V$: obe imata v okolici prehoda maksimum, s tem da
+    maksimum prve pada, druge pa raste z večanjem dimenzije mreže.
+
     \section{1D Heisenbergov model}
 
     Vzemimo sedaj še enadimenzionalno verigo $N$ Heisenbergovih spinov $|\vs_j| = 1$.
     Energija konfiguracije $\uvs = (\vs_1, \ldots, \vs_N)$ je:
 
-    \begin{equation}\label{eq8}
+    \begin{equation}\label{eq10}
         E(\uvs) = -\sum_{j=1}^N (J \vs_j \cdot \vs_{j+1} + h\s_j^z)
     \end{equation}
 
@@ -136,12 +189,12 @@
             \item Izberemo enakomerno porazdeljena koordinato $z \in [-1, 1]$ in polarni kot $\phi \in [0, 2\pi]$.
             \item Določimo radij preseka sfere na višini $z$: $r = \sqrt{1 - z^2}$
             \item Določimo koordinati $x$ in $y$:
-            \begin{equation}\label{eq9}
+            \begin{equation}\label{eq11}
                 x = r\cos{\phi}, \quad y = r\sin{\phi}
             \end{equation}
         \end{enumerate}
         \item Spremembo energije ob zgornji spremembi orientacije spina izračunamo kot:
-        \begin{equation}\label{eq10}
+        \begin{equation}\label{eq12}
             \begin{split}
                 \D E_j = &\D \vs'_j \cdot \left( J(\vs_{j-1} + \vs_{j+1}) + h(0, 0, 1) \right), \\
                 &\D \vs'_j = \vs_j - \vs'_j = -\D \vs_j
@@ -153,7 +206,7 @@
     V tem primeru moramo poskrbeti, da na vsakem koraku Metropolisovega sprehoda ohranimo magnetizacijo - algoritem
     prilagodimo: spreminjamo po dva sosednja spina, tako da se njuna vsota ohranja:
 
-    \begin{equation}\label{eq11}
+    \begin{equation}\label{eq13}
         \vs'_j + \vs'_{j+1} = \vs_j + \vs_{j+1}
     \end{equation}
 
@@ -168,28 +221,21 @@
         \item Če sta spina ravno nasprotna ($|\vo| = 0$), izberemo poljuben $\vs'_j$ enakomerno porazdeljen na sferi,
         vzamemo $\vs'_{j+1} = -\vs'_j$ in preskočimo naslednjih nekaj korakov do računanja energije (točka 7).
         \item Določimo ortogonalno bazo normalne ravnine, ki je normirana na radij preseka:
-        \begin{equation}\label{eq12}
+        \begin{equation}\label{eq14}
             \vr = \vs_{j} - \vo, \quad \vq = \frac{1}{|\vo|} \frac{\vs_{j+1} \times \vs_{j}}{2}
         \end{equation}
         \item Izberemo enakomerno porazdeljen polarni kot $\phi \in [0, 2\pi]$, ter določimo nov spin zapisan v bazi
         normalne ravnine: $\vv = \vr \cos{\phi} + \vq \sin{\phi}$
         \item Predlagana nova spina sta sedaj $\vs'_{j} = \vo + \vv$ in $\vs'_{j+1} = \vo - \vv$
         \item Izračunamo spremembo energije:
-        \begin{equation}\label{eq13}
+        \begin{equation}\label{eq15}
             \D E_j = J(\D \vs'_{j} \cdot (\vs_{j-1} - \vs_{j+2}) + \vs_j \cdot \vs_{j+1} - \vs'_j \cdot \vs'_{j+1})
         \end{equation}
         \item Postopek naprej je že opisan v razdelku o Isingovem modelu.
     \end{enumerate}
 
-    \iffalse
-    \begin{figure}
-        \centering
-        \includegraphics[width = \textwidth]{slika16.pdf}
-        \caption{Odvisnost toka $J$ med termostatom in verigo v odvisnosti od časa vzorčenja $\tau$.
-        Računano je na anharmonski ($\lambda = 1$) verigi dolžine $N = 10$ in povprečeno po $1000$ vzorcih.
-        $J_1$ se nanaša na tok na levi, $J_2$ pa na desni strani verige.}
-        \label{slika6}
-    \end{figure}
-    \fi
+    \subsection{Rezultati}
+
+    \ldots
 
 \end{document}

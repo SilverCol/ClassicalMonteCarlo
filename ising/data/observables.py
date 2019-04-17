@@ -2,7 +2,7 @@ from matplotlib import pyplot as plt
 import numpy as np
 from scipy import optimize as opt
 
-L = 256
+L = 512
 observables = np.fromfile('heating' + str(L*L) + '_1.000000_0.000000.bin')
 observables = np.reshape(observables, (5, int(len(observables) / 5)), 'F')
 
@@ -23,7 +23,7 @@ def magnet(x, betac):
 popt, pcov = opt.curve_fit(magnet, betas, mags, .4)
 betaC = popt[0]
 
-plt.rcParams.update({'font.size': 15})
+plt.rcParams.update({'font.size': 20})
 fig = plt.figure()
 ax = fig.subplots(nrows=3, sharex=True)
 ax[0].grid()
