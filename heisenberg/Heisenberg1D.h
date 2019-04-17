@@ -10,6 +10,7 @@
 #include "pcg_random.hpp"
 
 static const uint32_t N = 1 << 8;
+static const uint32_t rotations = 1 << 4;
 
 struct Spin
 {

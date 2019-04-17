@@ -14,6 +14,8 @@ fig = plt.figure()
 ax = fig.subplots(subplot_kw=dict(aspect='auto'))
 
 image = ax.pcolormesh(np.arange(N), betas, correlations, cmap='RdYlGn')
-bar = fig.colorbar(image)
+bar = fig.colorbar(image, label='$C(r)$')
+ax.set_ylabel('$\\beta$')
+ax.set_xlabel('$r$')
 
 plt.show()

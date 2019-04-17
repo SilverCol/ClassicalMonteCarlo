@@ -44,7 +44,7 @@ m_h(),
 m_energy(j*N),
 m_magnet({0.0, 0.0, 0.0})
 {
-    double dphi = 6.283185307179586 / N;
+    double dphi = rotations * 6.283185307179586 / N;
     for (uint32_t j = 0; j < N; j += 2) m_spins[j] = {std::cos(j*dphi), 0.0, std::sin(j*dphi)};
 }
 
