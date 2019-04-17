@@ -5,17 +5,16 @@
 #include<chrono>
 #include <iostream>
 #include <fstream>
-#include <map>
 #include "Ising2D.h"
 
 static const size_t steps = N * 100;
-static const uint8_t modulo = 10;
+static const uint8_t modulo = 1;
 
 static const double J = 1.;
 static const double H = 0.;
 
-static const double iBeta = 1;
-static const double dBeta = -.001;
+static const double iBeta = .6;
+static const double dBeta = -.0004;
 static const uint32_t nBeta = 1000;
 
 void writeBinary(std::vector<double>& data, const std::string& file)
@@ -35,16 +34,15 @@ int main()
     // Ising2D lattice(J, H, randomState());
     Ising2D lattice(J, H);
 
-    std::map<double, std::pair<std::vector<double>, std::vector<double> > > observables;
+    std::vector<double> output;
 
     std::cout << "Iterating over betas." << std::endl;
     double beta = iBeta;
     for (uint32_t n = 0; n < nBeta; ++n)
     {
         std::cout << "beta " << beta << std::endl;
-        observables.emplace(beta, std::make_pair(std::vector<double> (), std::vector<double> ()));
-        std::vector<double>& magnetVector = observables.at(beta).first;
-        std::vector<double>& energyVector = observables.at(beta).second;
+        std::vector<double> magnetVector;
+        std::vector<double> energyVector;
 
         for (size_t i = 0; i < steps; ++i)
         {
@@ -56,16 +54,8 @@ int main()
             }
         }
 
-        beta += dBeta;
-    }
+        output.push_back(beta); // beta
 
-    std::cout << "Calculating means." << std::endl;
-    std::vector<double> output;
-    for (auto& observable : observables)
-    {
-        output.push_back(observable.first); // beta
-
-        std::vector<double>& magnetVector = observable.second.first;
         output.push_back(
                 modulo * std::accumulate(magnetVector.begin(), magnetVector.end(), 0.0) / steps
                 ); //mean mag
@@ -73,13 +63,14 @@ int main()
                 modulo * std::inner_product(magnetVector.begin(), magnetVector.end(), magnetVector.begin(), 0.0) / steps
                 ); //mean mag sqr
 
-        std::vector<double>& energyVector = observable.second.second;
         output.push_back(
                 modulo * std::accumulate(energyVector.begin(), energyVector.end(), 0.0) / steps
         ); //mean enery
         output.push_back(
                 modulo * std::inner_product(energyVector.begin(), energyVector.end(), energyVector.begin(), 0.0) / steps
         ); //mean energy sqr
+
+        beta += dBeta;
     }
 
     std::string file("../../ising/data/");

@@ -5,7 +5,6 @@
 #include<chrono>
 #include <iostream>
 #include <fstream>
-#include <map>
 #include "Heisenberg1D.h"
 
 static const size_t steps = 1 << 25;
@@ -34,15 +33,14 @@ int main()
 
     Heisenberg1D chain(J);
 
-    std::map<double, std::vector<std::vector<double> > > correlations;
+    std::vector<double> output;
 
     std::cout << "Iterating over betas." << std::endl;
     double beta = iBeta;
     for (uint32_t n = 0; n < nBeta; ++n)
     {
         std::cout << "beta " << beta << std::endl;
-        correlations.emplace(beta, std::vector<std::vector<double> >(N));
-        std::vector<std::vector<double> >& correlationTable = correlations.at(beta);
+        std::vector<std::vector<double> > correlationTable(N);
 
         for (size_t i = 0; i < steps; ++i)
         {
@@ -56,20 +54,14 @@ int main()
             }
         }
 
-        beta += dBeta;
-    }
+        output.push_back(beta); // beta
 
-    std::cout << "Calculating means." << std::endl;
-    std::vector<double> output;
-    for (auto& entry : correlations)
-    {
-        output.push_back(entry.first); // beta
-
-        std::vector<std::vector<double> >& correlationTable = entry.second;
         for (const auto& spot : correlationTable)
         {
             output.push_back( modulo * std::accumulate(spot.begin(), spot.end(), 0.0) / steps ); // mean
         }
+
+        beta += dBeta;
     }
 
     std::string file("../../heisenberg/data/");
