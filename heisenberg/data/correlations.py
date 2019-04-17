@@ -2,7 +2,7 @@ from matplotlib import pyplot as plt
 import numpy as np
 
 M = 100
-N = 256
+N = 128
 
 data = np.fromfile("heating" + str(N) + "_1.000000_0.000000.bin")
 data = np.reshape(data, (M, N + 1))
