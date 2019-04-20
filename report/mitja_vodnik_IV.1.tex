@@ -236,6 +236,49 @@
 
     \subsection{Rezultati}
 
-    \ldots
+    V tem razdelku nas zanimajo spinske korelacijske funkcije pri fiksni ničelni magnetizaciji.
+    Začetno stanje konstruiramo tako, da spine enega za drugim orientiramo v obliki vijačnice, tako, da se preko
+    cele verige zasukajo za poln prostorski kot - sukamo jih naprimer v $xz$ ravnini:
+
+    \begin{equation}\label{eq16}
+        \vs_j = (\sin{\phi_j}, 0, \cos{\phi_j}), \quad \phi_j = j\frac{2\pi}{N}
+    \end{equation}
+
+    Na ta način poskrbimo, da ima stanje kar se da nizko energijo pri čemer še vedno upošteva vez $M = 0$.
+    Simulacijo nato ženemo od nizke temperature $\beta = 20$ proti neskončni $\beta = 0$, in nato spet nazaj k nizki.
+    Za dve različni dolžini sprehodov lahko tako simulacijo spremljamo na slikah~\ref{slika2} in~\ref{slika3}.
+    Z vejem temperature se začne korelacija kvariti, ko pa sistem spet ohladimo, pridemo v neko manj urejeno stanje
+    kakor tisto s katerim smo začeli - podobno kot smo videli že v Isingovem modelu.
+    Opazimo tudi, da so korelacije šibkejše, če povprečimo preko večjih časov.
+
+    \begin{figure}
+        \centering
+        \begin{subfigure}{\textwidth}
+            \includegraphics[width = \textwidth]{slika4.pdf}
+            \caption{Segrevanje: simulacija teče od zgoraj navzdol.}
+        \end{subfigure}
+        \begin{subfigure}{\textwidth}
+            \includegraphics[width = \textwidth]{slika5.pdf}
+            \caption{Ohlajanje: simulacija teče od spodaj navzgor.}
+        \end{subfigure}
+        \caption{Korelacije spinov v Heisenbergovi verigi dolžine $L = 128$.
+        V tej simulaciji je za vsako temperaturo izvedenih $2^{15}$ korakov.}
+        \label{slika2}
+    \end{figure}
+
+    \begin{figure}
+        \centering
+        \begin{subfigure}{\textwidth}
+            \includegraphics[width = \textwidth]{slika6.pdf}
+            \caption{Segrevanje: simulacija teče od zgoraj navzdol.}
+        \end{subfigure}
+        \begin{subfigure}{\textwidth}
+            \includegraphics[width = \textwidth]{slika7.pdf}
+            \caption{Ohlajanje: simulacija teče od spodaj navzgor.}
+        \end{subfigure}
+        \caption{Korelacije spinov v Heisenbergovi verigi dolžine $L = 128$.
+        V tej simulaciji je za vsako temperaturo izvedenih $2^{20}$ korakov.}
+        \label{slika3}
+    \end{figure}
 
 \end{document}
